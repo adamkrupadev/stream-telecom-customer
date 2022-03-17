@@ -1,72 +1,72 @@
 # StreamTelecom
 
-Данный пакет разработан на основе API stream-telecom.ru (https://stream-telecom.ru/solutions/integrations/).
+This package was developed based on the stream-telecom.ru API (https://stream-telecom.ru/solutions/integrations/).
 
-В данном пакете реализованы следующие методы:
-1. Просмотр баланса;
-2. Выгрузка тарифов;
-3. Выгрузка статистики;
-4. HLR-запросы;
-5. Отправка СМС;
-6. Отправка сообщений в Viber;
-7. Отправка уведомлений в VK;
-8. Отправка Email;
+The following methods are implemented in this package:
+1. View balance;
+2. Unloading tariffs;
+3. Unloading statistics;
+4. HLR requests;
+5. Sending SMS;
+6. Sending messages to Viber;
+7. Sending notifications to VK;
+8. Email sending;
 
-## Установка
+## Installation
 ```bash
 composer require manzadey/stream-telecom
 ```
 
-## Начало работы
+## Beginning of work
 ```php
 use Manzadey\StreamTelecom\StreamTelecom;
 
 $st = new StreamTelecom('name', 'login', 'password');
 ```
 
-## Просмотр баланса
+## View balance
 ```php
 echo $st->balance();
 ```
 
-## Выгрузка тарифов
+## Uploading tariffs
 ```php
 echo $st->tariffs();
 ```
-Стоимость конкретных запросов
+Cost of specific requests
 ```php
 echo $st->tariffs()->hlr();
 echo $st->tariffs()->email();
 echo $st->tariffs()->messenger();
 ```
-## Выгрузка статистики
+## Upload statistics
 ```php
-$st->statistic()->start('02.02.2020 10:00')->end('03.03.2020 10:00')->get();
+$st->statistic()->start('02/02/2020 10:00')->end('03/03/2020 10:00')->get();
 ```
-Для выгрузки детальной статистики необходимо указать метод `detail()`;
+To unload detailed statistics, you must specify the `detail()` method;
 
 ```php
-$st->statistic()->start('02.02.2020 10:00')->end('03.03.2020 10:00')->detail()->get();
+$st->statistic()->start('02/02/2020 10:00')->end('03/03/2020 10:00')->detail()->get();
 ```
 
-В ответ придёт ID отчёта.
+The response will be the ID of the report.
 
-**Необязательные методы для детальной статистики:**
+**Optional methods for detailed statistics:**
 
-`state()` - Формирование статистики по определенному статусу сообщений.  Допустимые значения deliver, not_deliver, expired, sent  (доставлено, не доставлено, просрочено, в процессе).
+`state()` - Formation of statistics on a certain status of messages. Valid values ​​are deliver, not_deliver, expired, sent (delivered, not delivered, expired, in progress).
 
-`phone()` - Формирование статистики по определенному номеру абонента.
+`phone()` - Formation of statistics for a specific subscriber number.
 
-`cBase()` - Указывает на необходимость выгрузки данных с привязкой к базе адресатов.
+`cBase()` - Indicates the need to upload data with reference to the database of recipients.
 
-`subStat()` - Указывает на необходимость выгрузки данных с подлогинов.
+`subStat()` - Indicates the need to upload data from sublogins.
 
-`typeLoad()` - Выбор формата отчета. Допустимые значения: 0, 1 (0 -csv по умолчанию, 1 -xls)
+`typeLoad()` - Select the report format. Valid values: 0, 1 (0 -csv default, 1 -xls)
 
 ```php
 $st->statistic()
-->start('02.02.2020 10:00')
-->end('03.03.2020 10:00')
+->start('02/02/2020 10:00')
+->end('03/03/2020 10:00')
 ->detail()
 ->state('not_deliver')
 ->phone(79111234567)
@@ -77,27 +77,27 @@ $st->statistic()
 ```
 
 ## HLR
-Отправка HLR-запроса
+Sending an HLR request
 ```php
 $st->hlr()->phone(7912345678)->get(); // 123456789101213
 ```
 
-Получение статуса HLR-запроса
+Getting the status of an HLR request
 ```php
 $st->hlr()->status(123456789101213);
 ```
 
-## СМС
-Отправка СМС-сообщения
+## SMS
+Sending an SMS message
 ```php
 $st->sms()->send()
 ->text('text message')
 ->to(['+79123456789', 79123456789, '+7(912)-345-67-89'])
 ->get();
 ```
-Отправка сообщений нескольким адресатам с разным текстом.
+Sending messages to multiple recipients with different text.
 ```php
-$phones_array  = [
+$phones_array = [
     '+79123456789',
     79123456789,
     '+7(912)-345-67-89',
@@ -115,31 +115,31 @@ $st->sms()->send()
 })
 ->get();
 ```
-Получение статуса СМС сообщения
+Getting the status of an SMS message
 ```php
 $st->sms()->status(14561456165332)->get();
 ```
-Получение входящих СМС сообщений
+Receiving incoming SMS messages
 ```php
-$st->sms()->incoming()->start('29.01.2020 13:00')->end('30.01.2020 13:00')->get();
+$st->sms()->incoming()->start('2020/01/29 13:00')->end('2020/01/30 13:00')->get();
 ```
 
 
 ## Email
-**Установка соединения**
+**Establishing a connection**
 ```php
 $st->setup()->email('password_from_pa');
 ```
 
 
-### Работа с базами
-Получение списка баз
+### Working with databases
+Getting a list of databases
 ```php
 $st->email()->list()->method('get')
 ->listId(123)
 ->get();
 ```
-Добавление адресной базы
+Adding an address database
 ```php
 $st->email()->list()->method('add')
 ->name('TestBase')
@@ -154,7 +154,7 @@ $st->email()->list()->method('add')
 ->phone(79999999999)
 ->get();
 ```
-Обновление контактной информации адресной базы
+Updating the contact information of the address database
 ```php
 $st->email()->list()->method('update')
 ->listId(123)
@@ -170,13 +170,13 @@ $st->email()->list()->method('update')
 ->phone(79999999999)
 ->get();
 ```
-Удаление адресной базы
+Deleting an address database
 ```php
 $st->email()->list()->method('delete')
 ->listId(123)
 ->get();
 ```
-Получение списка подписчиков с возможностью фильтрации и регулировки выдачи
+Obtaining a list of subscribers with the ability to filter and adjust the issuance
 ```php
 $st->email()->list()->method('get_members')
 ->listId(123)
@@ -184,7 +184,7 @@ $st->email()->list()->method('get_members')
 ->limit(1)
 ->get();
 ```
-Импортирование подписчиков из файла
+Importing subscribers from a file
 ```php
 $st->email()->list()->method('upload')
 ->listId(123)
@@ -192,151 +192,53 @@ $st->email()->list()->method('upload')
 ->type('csv')
 ->get();
 ```
-Добавление одного подписчика в базу
+Adding one subscriber to the database
 ```php
 $st->email()->list()->method('add_member')
 ->listId(123)
 ->email('testuser@mail.com')
-->merge(1, 'Иван')
-->merge(2, 'Иванов')
+->merge(1, 'John')
+->merge(2, 'Ivanov')
 ->merge(3, '1985-11-23')
 ->gender('m')
 ->get();
 ```
-Редактирование данных подписчика
+Editing subscriber data
 ```php
 $st->email()->list()->method('update_member')
 ->memberId(123)
-->merge(1, 'Иван')
-->merge(2, 'Иванов')
+->merge(1, 'John')
+->merge(2, 'Ivanov')
 ->merge(3, '1985-11-23')
 ->gender('m')
 ->get();
 ```
-Удаление подписчика из базы
+Removing a subscriber from the database
 ```php
 $st->email()->list()->method('delete_member')
 ->memberId(123)
 ->get();
 ```
-Отписка подписчика из базы
+Unsubscribing from the database
 ```php
 $st->email()->list()->method('unsubscribe_member')
 ->memberId(123)
 ->listId(123)
 ->email('testuser@mail.com')
-->reason('Отписка по заявке')
+->reason('Request Unsubscribe')
 ->get();
 ```
 
 
 
 ## Viber
-**Установка соединения**
+**Establishing a connection**
 ```php
 $st->setup()->viber('sourceAddressIM');
 ```
-Отправка сообщения: _только текст_
+Send message: _text only_
 ```php
 $st->viber()
-->text('Привет вайбер')
+->text('Hi viber')
 ->to(79211234567)
-->validity(7200)
-->get();
-```
-Отправка сообщения: _только картинка_
-```php
-$st->viber()
-->image('https://my.site.com/images/image.jpg')
-->to(79211234567)
-->validity(7200)
-->get();
-```
-Отправка сообщения: _с кнопкой, картинкой и текстом_
-```php
-$st->viber()
-->text('Привет вайбер')
-->image('https://my.site.com/images/image.jpg')
-->buttonText('Нажми на кнопку ')
-->buttonUrl('stream-telecom.ru')
-->to(79211234567)
-->validity(7200)
-->get();
-```
-Отправка сообщения: _с кнопкой, картинкой и текстом, с методом каскад_
-```php
-$st->viber()
-->text('Привет вайбер')
-->cascade('Текст резервного сообщения по sms')
-->image('https://my.site.com/images/image.jpg')
-->buttonText('Нажми на кнопку ')
-->buttonUrl('stream-telecom.ru')
-->to(79211234567)
-->validity(7200)
-->get();
-```
-Пакетная отправка
-```php
-$st->viber()
-->package(static function ($v) {
-    return $v->text('Привет вайбер')->to(79211234567)->validity(7200);
-})
-->package(static function ($v) {
-    return $v->image('https://my.site.com/images/image.jpg')->to(79211234567)->validity(7200);
-})
-->package(static function ($v) {
-    return $v->text('Привет вайбер')->image('https://my.site.com/images/image.jpg')->buttonText('Нажми на кнопку ')->buttonUrl('stream-telecom.ru')->to(79211234567)->validity(7200);
-})
-->package(static function ($v) {
-    return $v->text('Привет вайбер')->sms('Текст резервного сообщения по sms')->image('https://my.site.com/images/image.jpg')->buttonText('Нажми на кнопку ')->buttonUrl('stream-telecom.ru')->to(79211234567)->validity(7200);
-})
-->get();
-```
-Получение статуса
-```php
-$viber_status = $st->viber()->messageId(12345)->get();
-
-// Тип сообщения
-$viber_status->getStateMessage();
-
-// Статус сообщения
-$viber_status->getStateMessage();
-
-// Причина, по которой сообщение не было доставлено абоненту
-$viber_status->getStateErrorMessage();
-
-// Время получения статуса
-$viber_status->getStateTime();
-
-// Стоимость
-$viber_status->getPrice();
-```
-## VK
-**Установка соединения**
-```php
-$st->setup()->vk('service');
-```
-Отправка уведомления:
-```php
-$st->vk()
-->template(8, ['username' => 'Alexey', 'balance' => '1000000'])
-->ttl(60)
-->to(79999999998)
-->get();
-```
-Отправка каскадных сообщений в VK
-```php
-
-```
-Пакетная отправка уведомений:
-```php
-$st->vk()->package(static function ($c) {
-    return $c->template(8, ['username' => 'Alexey', 'balance' => '1000000'])->to(7911102461)->ttl(1);
-})->package(static function ($c) {
-    return $c->template(8, ['username' => 'Alexey', 'balance' => '1000000'])->to(7911102461)->ttl(1);
-})->get();
-```
-Отправка каскадных сообщений в VK
-```php
-
-```
+->validity
